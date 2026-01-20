@@ -122,7 +122,7 @@
 
     <!-- Menu Item -->
     <menuitem id="menu_relatic_integration"
-              name="Relatic Integration"
+              name="ETS Relatic Integration"
               parent="account.menu_finance"
               sequence="100"
               groups="account.group_account_user"/>

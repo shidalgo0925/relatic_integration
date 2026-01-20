@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Relatic Integration',
+    'name': 'ETS Relatic Integration',
     'version': '18.0.1.0.0',
     'category': 'Accounting',
-    'summary': 'Integración con sistema de membresía Relatic',
+    'summary': 'ETS - Integración con sistema de membresía Relatic',
     'description': """
         Integración con sistema de membresía Relatic
         ============================================
