@@ -58,7 +58,7 @@
                             </group>
                         </page>
                         
-                        <page string="Errores" name="errors" attrs="{'invisible': [('status', 'not in', ['error', 'retry'])]}">
+                        <page string="Errores" name="errors" invisible="status not in ['error', 'retry']">
                             <group>
                                 <field name="error_code"/>
                                 <field name="error_message" nolabel="1" widget="text"/>
