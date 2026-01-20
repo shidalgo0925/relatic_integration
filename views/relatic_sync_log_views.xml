@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_relatic_sync_log_tree" model="ir.ui.view">
+        <field name="name">relatic.sync.log.tree</field>
+        <field name="model">relatic.sync.log</field>
+        <field name="arch" type="xml">
+            <tree string="Logs de Sincronización Relatic" decoration-success="status == 'success'" decoration-danger="status == 'error'" decoration-warning="status == 'retry'">
+                <field name="order_id"/>
+                <field name="status" widget="badge" decoration-success="status == 'success'" decoration-danger="status == 'error'" decoration-warning="status == 'retry'"/>
+                <field name="invoice_number"/>
+                <field name="partner_name"/>
+                <field name="environment"/>
+                <field name="retries"/>
+                <field name="received_at"/>
+                <field name="processed_at"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_relatic_sync_log_form" model="ir.ui.view">
+        <field name="name">relatic.sync.log.form</field>
+        <field name="model">relatic.sync.log</field>
+        <field name="arch" type="xml">
+            <form string="Log de Sincronización Relatic">
+                <header>
+                    <field name="status" widget="statusbar" statusbar_visible="pending,success,error"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="order_id"/>
+                            <field name="status"/>
+                            <field name="retries"/>
+                            <field name="environment"/>
+                            <field name="source"/>
+                            <field name="payload_version"/>
+                        </group>
+                        <group>
+                            <field name="received_at"/>
+                            <field name="processed_at"/>
+                            <field name="processing_time"/>
+                            <field name="payload_hash" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Relaciones" name="relations">
+                            <group>
+                                <group>
+                                    <field name="partner_id" options="{'no_create': True, 'no_create_edit': True}"/>
+                                    <field name="invoice_id" options="{'no_create': True, 'no_create_edit': True}"/>
+                                    <field name="payment_move_id" options="{'no_create': True, 'no_create_edit': True}"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Errores" name="errors" attrs="{'invisible': [('status', 'not in', ['error', 'retry'])]}">
+                            <group>
+                                <field name="error_code"/>
+                                <field name="error_message" nolabel="1" widget="text"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Información Adicional" name="additional">
+                            <group>
+                                <field name="invoice_number" readonly="1"/>
+                                <field name="partner_name" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_relatic_sync_log_search" model="ir.ui.view">
+        <field name="name">relatic.sync.log.search</field>
+        <field name="model">relatic.sync.log</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Logs de Sincronización">
+                <field name="order_id"/>
+                <field name="invoice_number"/>
+                <field name="partner_name"/>
+                <field name="payload_hash"/>
+                <filter string="Exitosos" name="success" domain="[('status', '=', 'success')]"/>
+                <filter string="Con Error" name="error" domain="[('status', '=', 'error')]"/>
+                <filter string="Reintentos" name="retry" domain="[('status', '=', 'retry')]"/>
+                <filter string="Pendientes" name="pending" domain="[('status', '=', 'pending')]"/>
+                <filter string="Producción" name="prod" domain="[('environment', '=', 'prod')]"/>
+                <filter string="Hoy" name="today" domain="[('received_at', '>=', datetime.datetime.now().replace(hour=0, minute=0, second=0))]"/>
+                <separator/>
+                <filter string="Con Reintentos" name="has_retries" domain="[('retries', '>', 0)]"/>
+                <group expand="0" string="Agrupar por">
+                    <filter string="Estado" name="group_status" context="{'group_by': 'status'}"/>
+                    <filter string="Ambiente" name="group_environment" context="{'group_by': 'environment'}"/>
+                    <filter string="Fecha" name="group_date" context="{'group_by': 'received_at:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_relatic_sync_log" model="ir.actions.act_window">
+        <field name="name">Logs de Sincronización Relatic</field>
+        <field name="res_model">relatic.sync.log</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_relatic_sync_log_search"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No hay logs de sincronización aún
+            </p>
+            <p>
+                Los logs de sincronización se crean automáticamente cuando se reciben webhooks
+                desde el sistema de membresía Relatic.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_relatic_integration"
+              name="Relatic Integration"
+              parent="account.menu_finance"
+              sequence="100"
+              groups="account.group_account_user"/>
+
+    <menuitem id="menu_relatic_sync_logs"
+              name="Logs de Sincronización"
+              parent="menu_relatic_integration"
+              action="action_relatic_sync_log"
+              sequence="10"
+              groups="account.group_account_user"/>
+
+</odoo>

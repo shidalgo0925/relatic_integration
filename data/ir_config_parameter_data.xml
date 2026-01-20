@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Configuración: Auto-crear productos si no existen -->
+        <record id="config_auto_create_product" model="ir.config_parameter">
+            <field name="key">relatic_integration.auto_create_product</field>
+            <field name="value">False</field>
+        </record>
+
+        <!-- Configuración: Secret para HMAC (debe cambiarse en producción) -->
+        <record id="config_hmac_secret" model="ir.config_parameter">
+            <field name="key">relatic_integration.hmac_secret</field>
+            <field name="value">CHANGE_THIS_SECRET_IN_PRODUCTION</field>
+        </record>
+
+        <!-- Configuración: API Key (debe cambiarse en producción) -->
+        <record id="config_api_key" model="ir.config_parameter">
+            <field name="key">relatic_integration.api_key</field>
+            <field name="value">CHANGE_THIS_API_KEY_IN_PRODUCTION</field>
+        </record>
+    </data>
+</odoo>

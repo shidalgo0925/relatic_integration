@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_relatic_sync_log_user,relatic.sync.log.user,model_relatic_sync_log,base.group_user,1,0,0,0
+access_relatic_sync_log_accountant,relatic.sync.log.accountant,model_relatic_sync_log,account.group_account_user,1,1,1,0
+access_relatic_sync_log_manager,relatic.sync.log.manager,model_relatic_sync_log,account.group_account_manager,1,1,1,1
+access_account_move_relatic_user,account.move.relatic.user,model_account_move,base.group_user,1,0,0,0
