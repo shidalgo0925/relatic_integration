@@ -6,7 +6,7 @@
         <field name="model">relatic.sync.log</field>
         <field name="type">list</field>
         <field name="arch" type="xml">
-            <tree string="Logs de Sincronización Relatic" decoration-success="status == 'success'" decoration-danger="status == 'error'" decoration-warning="status == 'retry'">
+            <list string="Logs de Sincronización Relatic" decoration-success="status == 'success'" decoration-danger="status == 'error'" decoration-warning="status == 'retry'">
                 <field name="order_id"/>
                 <field name="status" widget="badge" decoration-success="status == 'success'" decoration-danger="status == 'error'" decoration-warning="status == 'retry'"/>
                 <field name="invoice_number"/>
@@ -15,7 +15,7 @@
                 <field name="retries"/>
                 <field name="received_at"/>
                 <field name="processed_at"/>
-            </tree>
+            </list>
         </field>
     </record>
 
